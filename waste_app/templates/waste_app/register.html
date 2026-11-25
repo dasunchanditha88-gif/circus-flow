@@ -1,0 +1,310 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Circus Flow — Create Your Account</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">/** @type {import('tailwindcss').Config} */
+globalThis.tailwind = globalThis.tailwind || {};
+globalThis.tailwind.config = {
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        'deep-forest': '#0F5132',
+        'on-deep-forest': '#FFFFFF',
+        'vibrant-emerald': '#10B981',
+        'on-vibrant-emerald': '#002111',
+        'crisp-white': '#FFFFFF',
+        'soft-slate': '#F1F5F9',
+        'slate-muted': '#64748B',
+        'emerald-tint': '#ECFDF5',
+        'on-emerald-tint': '#0F5132',
+        'success': '#006C49',
+        'on-success': '#FFFFFF',
+        'success-container': '#DCFCE7',
+        'on-success-container': '#166534',
+        'warning-container': '#FEF3C7',
+        'on-warning-container': '#92400E',
+        'info-container': '#DBEAFE',
+        'on-info-container': '#1E40AF',
+        'error': '#BA1A1A',
+        'on-error': '#FFFFFF',
+        'error-container': '#FEE2E2',
+        'on-error-container': '#991B1B',
+        'admin-sidebar': '#111827',
+        'on-admin-sidebar': '#F9FAFB',
+        'admin-sidebar-surface': '#1F2937',
+        'admin-sidebar-muted': '#9CA3AF',
+        'admin-canvas': '#F9FAFB',
+        'light-primary': '#0F5132',
+        'light-on-primary': '#FFFFFF',
+        'light-primary-container': '#C1FFD5',
+        'light-on-primary-container': '#002111',
+        'light-secondary': '#006C49',
+        'light-on-secondary': '#FFFFFF',
+        'light-secondary-container': '#BEFFDB',
+        'light-on-secondary-container': '#002113',
+        'light-surface': '#FFFFFF',
+        'light-surface-container-low': '#F8FAFC',
+        'light-surface-container': '#F1F5F9',
+        'light-surface-container-high': '#E2E8F0',
+        'light-on-surface': '#0B1C30',
+        'light-on-surface-variant': '#38485D',
+        'light-outline': '#68788F',
+        'light-outline-variant': '#CBD5E1',
+      },
+      borderRadius: {
+        'sm': '6px',
+        'DEFAULT': '10px',
+        'md': '12px',
+        'lg': '16px',
+        'xl': '24px',
+        'full': '9999px',
+      },
+      spacing: {
+        'gutter-xs': '4px',
+        'gutter-sm': '8px',
+        'gutter-md': '16px',
+        'gutter-lg': '24px',
+        'gutter-xl': '32px',
+        'section': '48px',
+        'page-margin': '24px',
+      },
+      fontFamily: {
+        'display': ['"Mulish"', 'sans-serif'],
+        'headline': ['"Mulish"', 'sans-serif'],
+        'title': ['"Instrument Sans"', 'sans-serif'],
+        'body': ['"Instrument Sans"', 'sans-serif'],
+        'label': ['"Instrument Sans"', 'sans-serif'],
+        'mono': ['"Source Code Pro"', 'monospace'],
+      },
+      fontSize: {
+        'display-lg': ['48px', { lineHeight: '54px', letterSpacing: '-0.75px', fontWeight: '800' }],
+        'display-lg-mobile': ['32px', { lineHeight: '38px', letterSpacing: '-0.5px', fontWeight: '800' }],
+        'headline-lg': ['34px', { lineHeight: '42px', letterSpacing: '-0.4px', fontWeight: '700' }],
+        'headline-lg-mobile': ['26px', { lineHeight: '32px', letterSpacing: '-0.25px', fontWeight: '700' }],
+        'headline-sm': ['22px', { lineHeight: '28px', letterSpacing: '-0.2px', fontWeight: '700' }],
+        'title-md': ['18px', { lineHeight: '24px', letterSpacing: '0px', fontWeight: '600' }],
+        'body-lg': ['16px', { lineHeight: '26px', letterSpacing: '0px', fontWeight: '400' }],
+        'body-md': ['14px', { lineHeight: '22px', letterSpacing: '0px', fontWeight: '400' }],
+        'label-lg': ['14px', { lineHeight: '20px', letterSpacing: '0.1px', fontWeight: '600' }],
+        'label-sm': ['12px', { lineHeight: '16px', letterSpacing: '0.25px', fontWeight: '600' }],
+        'mono-sm': ['12px', { lineHeight: '18px', letterSpacing: '0px', fontWeight: '500' }],
+      },
+      transitionDuration: {
+        'state-change': '150ms',
+        'surface-enter': '250ms',
+      },
+      transitionDelay: {
+        'state-change': '0ms',
+        'surface-enter': '0ms',
+      },
+      transitionTimingFunction: {
+        'state-change': 'cubic-bezier(0.2, 0, 0, 1)',
+        'surface-enter': 'cubic-bezier(0.2, 0, 0, 1)',
+      },
+    },
+  },
+};
+if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
+</script>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&amp;family=Mulish:wght@600;700;800&amp;family=Source+Code+Pro:wght@500&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet">
+  <style>
+    .material-symbols-outlined, .material-symbols-rounded, .material-symbols-sharp, .material-icons {
+      display: inline-block;
+      width: 1em;
+      height: 1em;
+      line-height: 1 !important;
+      box-sizing: content-box;
+      overflow: hidden;
+      white-space: nowrap;
+      direction: ltr;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body class="bg-crisp-white text-light-on-surface font-body antialiased selection:bg-light-primary-container selection:text-light-on-primary-container">
+
+  <div class="min-h-[1024px] grid grid-cols-1 lg:grid-cols-5" data-stitch-vh="min-h-[1024px]===min-h-screen">
+
+    <!-- Left Side (40% width): Deep Forest Green to Emerald Eco-Tech Panel -->
+    <aside class="relative lg:col-span-2 overflow-hidden bg-gradient-to-br from-deep-forest via-deep-forest to-light-secondary text-on-deep-forest px-page-margin py-gutter-xl lg:p-section flex flex-col justify-between gap-gutter-xl">
+      <!-- Subtle Emerald Accent Glow -->
+      <div aria-hidden="true" class="pointer-events-none absolute -bottom-24 -right-24 w-80 h-80 rounded-full bg-vibrant-emerald/25 blur-3xl"></div>
+
+      <!-- Brand Logo -->
+      <div class="relative z-10 flex items-center gap-gutter-sm">
+        <span class="inline-flex items-center justify-center w-10 h-10 rounded-md bg-vibrant-emerald text-on-vibrant-emerald shadow-sm">
+          <span class="material-symbols-outlined text-title-md" aria-hidden="true">recycling</span>
+        </span>
+        <span data-design-text-token="title-md" class="font-headline text-title-md text-crisp-white tracking-tight">Circus Flow</span>
+      </div>
+
+      <!-- Uplifting Headline & 3-Step Visual Guide -->
+      <div class="relative z-10 flex flex-col gap-gutter-xl my-auto py-gutter-md">
+        <div class="flex flex-col gap-gutter-sm">
+          <h1 data-design-text-token="headline-lg" class="font-display text-headline-lg-mobile lg:text-headline-lg text-crisp-white text-balance">Join the Zero-Waste Movement</h1>
+          <p data-design-text-token="body-lg" class="font-body text-body-lg text-light-primary-container text-pretty">Set up your household waste profile in under two minutes and start earning eco-rewards.</p>
+        </div>
+
+        <!-- Simple 3-Step Visual Guide -->
+        <ol class="flex flex-col gap-gutter-lg">
+          <li class="flex items-start gap-gutter-md">
+            <span class="inline-flex shrink-0 items-center justify-center w-9 h-9 rounded-full bg-vibrant-emerald text-on-vibrant-emerald font-label text-label-lg shadow-sm tabular-nums">1</span>
+            <div class="flex flex-col gap-gutter-xs">
+              <span data-design-text-token="title-md" class="font-title text-title-md text-crisp-white">1. Create Account</span>
+              <span data-design-text-token="body-md" class="font-body text-body-md text-light-primary-container">Register your household address for zone-synced alerts.</span>
+            </div>
+          </li>
+
+          <li class="flex items-start gap-gutter-md">
+            <span class="inline-flex shrink-0 items-center justify-center w-9 h-9 rounded-full bg-on-vibrant-emerald/60 border border-vibrant-emerald/50 text-vibrant-emerald font-label text-label-lg tabular-nums">2</span>
+            <div class="flex flex-col gap-gutter-xs">
+              <span data-design-text-token="title-md" class="font-title text-title-md text-crisp-white">2. Schedule Pickup</span>
+              <span data-design-text-token="body-md" class="font-body text-body-md text-light-primary-container">Choose your waste category, weight, and preferred window.</span>
+            </div>
+          </li>
+
+          <li class="flex items-start gap-gutter-md">
+            <span class="inline-flex shrink-0 items-center justify-center w-9 h-9 rounded-full bg-on-vibrant-emerald/60 border border-vibrant-emerald/50 text-vibrant-emerald font-label text-label-lg tabular-nums">3</span>
+            <div class="flex flex-col gap-gutter-xs">
+              <span data-design-text-token="title-md" class="font-title text-title-md text-crisp-white">3. Track &amp; Earn Rewards</span>
+              <span data-design-text-token="body-md" class="font-body text-body-md text-light-primary-container">Monitor live collection progress and redeem eco-points.</span>
+            </div>
+          </li>
+        </ol>
+      </div>
+
+      <!-- Footer Tag -->
+      <p data-design-text-token="label-sm" class="relative z-10 font-label text-label-sm text-light-primary-container">Verified Municipal Sustainability Network</p>
+    </aside>
+
+    <!-- Right Side (60% width): Clean White Registration Form -->
+    <main class="lg:col-span-3 bg-crisp-white px-page-margin py-gutter-xl lg:p-section flex items-center justify-center">
+      <div class="w-full max-w-xl flex flex-col gap-gutter-xl">
+
+        <header class="flex flex-col gap-gutter-xs">
+          <h2 data-design-text-token="headline-lg" class="font-headline text-headline-lg-mobile lg:text-headline-lg text-deep-forest">Create Your Account</h2>
+          <p data-design-text-token="body-lg" class="font-body text-body-lg text-light-on-surface-variant">Enter your household details to start scheduling smart waste pickups.</p>
+        </header>
+
+        <form id="register-page-form" method="post" class="flex flex-col gap-gutter-md" novalidate>
+          {% csrf_token %}
+          <!-- Row 1: 2-Column Grid for Full Name & Phone Number -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-gutter-md">
+            <!-- COMPONENT: input-field-text -->
+            <label data-component-id="input-field-text" data-component-type="input-field" data-component-variant="text" class="flex flex-col gap-gutter-xs w-full">
+              <span data-design-text-token="label-lg" class="font-label text-label-lg text-light-on-surface">Full Name</span>
+              <div class="relative flex items-center">
+                <span aria-hidden="true" class="material-symbols-outlined absolute left-3 text-slate-muted text-title-md pointer-events-none">person</span>
+                <input type="text" name="fullName" required autocomplete="name" placeholder="Maya Lin" class="w-full rounded-md border border-light-surface-container-high bg-crisp-white pl-10 pr-gutter-md py-gutter-sm font-body text-body-md text-light-on-surface placeholder:text-slate-muted/70 focus:border-vibrant-emerald focus:ring-2 focus:ring-vibrant-emerald/25 focus:outline-none transition-colors duration-state-change ease-state-change">
+              </div>
+            </label>
+
+            <label class="flex flex-col gap-gutter-xs w-full">
+              <span data-design-text-token="label-lg" class="font-label text-label-lg text-light-on-surface">Phone Number</span>
+              <div class="relative flex items-center">
+                <span aria-hidden="true" class="material-symbols-outlined absolute left-3 text-slate-muted text-title-md pointer-events-none">call</span>
+                <input type="tel" name="phone" required autocomplete="tel" inputmode="tel" placeholder="(415) 555-0194" class="w-full rounded-md border border-light-surface-container-high bg-crisp-white pl-10 pr-gutter-md py-gutter-sm font-body text-body-md text-light-on-surface placeholder:text-slate-muted/70 focus:border-vibrant-emerald focus:ring-2 focus:ring-vibrant-emerald/25 focus:outline-none transition-colors duration-state-change ease-state-change">
+              </div>
+            </label>
+          </div>
+
+          <!-- Row 2: Full-Width Email Address -->
+          <!-- COMPONENT: input-field-icon -->
+          <label data-component-id="input-field-icon" data-component-type="input-field" data-component-variant="with-icon" class="flex flex-col gap-gutter-xs w-full">
+            <span data-design-text-token="label-lg" class="font-label text-label-lg text-light-on-surface">Email Address</span>
+            <div class="relative flex items-center">
+              <span aria-hidden="true" class="material-symbols-outlined absolute left-3 text-slate-muted text-title-md pointer-events-none">mail</span>
+              <input type="email" name="email" required autocomplete="email" inputmode="email" placeholder="maya@circusflow.eco" class="w-full rounded-md border border-light-surface-container-high bg-crisp-white pl-10 pr-gutter-md py-gutter-sm font-body text-body-md text-light-on-surface placeholder:text-slate-muted/70 focus:border-vibrant-emerald focus:ring-2 focus:ring-vibrant-emerald/25 focus:outline-none transition-colors duration-state-change ease-state-change">
+            </div>
+          </label>
+
+          <!-- Row 3: Full-Width Home / Pickup Address with Location Pin Icon -->
+          <label class="flex flex-col gap-gutter-xs w-full">
+            <span data-design-text-token="label-lg" class="font-label text-label-lg text-light-on-surface">Home / Pickup Address</span>
+            <div class="relative flex items-center">
+              <span aria-hidden="true" class="material-symbols-outlined absolute left-3 text-slate-muted text-title-md pointer-events-none">location_on</span>
+              <input type="text" name="address" required autocomplete="street-address" placeholder="742 Evergreen Terrace, Apt 4B, San Francisco, CA" class="w-full rounded-md border border-light-surface-container-high bg-crisp-white pl-10 pr-gutter-md py-gutter-sm font-body text-body-md text-light-on-surface placeholder:text-slate-muted/70 focus:border-vibrant-emerald focus:ring-2 focus:ring-vibrant-emerald/25 focus:outline-none transition-colors duration-state-change ease-state-change">
+            </div>
+          </label>
+
+          <!-- Row 4: 2-Column Row for Password & Confirm Password -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-gutter-md">
+            <div class="flex flex-col gap-gutter-xs w-full">
+              <label for="reg-password" data-design-text-token="label-lg" class="font-label text-label-lg text-light-on-surface">Password</label>
+              <div class="relative flex items-center">
+                <span aria-hidden="true" class="material-symbols-outlined absolute left-3 text-slate-muted text-title-md pointer-events-none">lock</span>
+                <input id="reg-password" type="password" name="password" required autocomplete="new-password" placeholder="Create password" class="w-full rounded-md border border-light-surface-container-high bg-crisp-white pl-10 pr-11 py-gutter-sm font-body text-body-md text-light-on-surface placeholder:text-slate-muted/70 focus:border-vibrant-emerald focus:ring-2 focus:ring-vibrant-emerald/25 focus:outline-none transition-colors duration-state-change ease-state-change">
+                <!-- COMPONENT: button-icon -->
+                <button data-component-id="button-icon" data-component-type="button" data-component-variant="icon" type="button" data-toggle-password="reg-password" aria-label="Toggle password visibility" class="absolute right-1.5 inline-flex items-center justify-center w-8 h-8 rounded-sm text-slate-muted hover:text-deep-forest hover:bg-soft-slate focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-vibrant-emerald transition-colors duration-state-change ease-state-change">
+                  <span class="material-symbols-outlined text-title-md" aria-hidden="true">visibility</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="flex flex-col gap-gutter-xs w-full">
+              <label for="reg-confirm-password" data-design-text-token="label-lg" class="font-label text-label-lg text-light-on-surface">Confirm Password</label>
+              <div class="relative flex items-center">
+                <span aria-hidden="true" class="material-symbols-outlined absolute left-3 text-slate-muted text-title-md pointer-events-none">lock</span>
+                <input id="reg-confirm-password" type="password" name="confirmPassword" required autocomplete="new-password" placeholder="Repeat password" class="w-full rounded-md border border-light-surface-container-high bg-crisp-white pl-10 pr-11 py-gutter-sm font-body text-body-md text-light-on-surface placeholder:text-slate-muted/70 focus:border-vibrant-emerald focus:ring-2 focus:ring-vibrant-emerald/25 focus:outline-none transition-colors duration-state-change ease-state-change">
+                <button type="button" data-toggle-password="reg-confirm-password" aria-label="Toggle confirm password visibility" class="absolute right-1.5 inline-flex items-center justify-center w-8 h-8 rounded-sm text-slate-muted hover:text-deep-forest hover:bg-soft-slate focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-vibrant-emerald transition-colors duration-state-change ease-state-change">
+                  <span class="material-symbols-outlined text-title-md" aria-hidden="true">visibility</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Terms Checkbox -->
+          <label class="inline-flex items-start gap-gutter-sm pt-gutter-xs cursor-pointer">
+            <input type="checkbox" name="terms" required class="mt-1 w-4 h-4 rounded-sm border-light-outline-variant text-deep-forest focus:ring-vibrant-emerald">
+            <span data-design-text-token="body-md" class="font-body text-body-md text-light-on-surface-variant">
+              I agree to the <span class="font-label text-label-lg text-deep-forest">Terms of Service</span> and <span class="font-label text-label-lg text-deep-forest">Privacy Policy</span>.
+            </span>
+          </label>
+
+          <!-- Prominent Emerald Create Account Button -->
+          <!-- COMPONENT: button-primary -->
+          <button data-component-id="button-primary" data-component-type="button" data-component-variant="primary" type="submit" class="w-full mt-gutter-sm inline-flex items-center justify-center gap-gutter-sm px-gutter-lg py-gutter-md rounded-md bg-vibrant-emerald text-on-vibrant-emerald font-label text-label-lg shadow-md shadow-vibrant-emerald/20 hover:bg-light-secondary hover:text-light-on-secondary hover:shadow-lg hover:shadow-vibrant-emerald/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-deep-forest focus-visible:ring-offset-2 active:scale-[0.99] transition-colors transition-shadow transition-transform duration-state-change ease-state-change">
+            <span data-design-text-token="label-lg">Create Account</span>
+            <span class="material-symbols-outlined text-title-md" aria-hidden="true">check_circle</span>
+          </button>
+        </form>
+
+        <!-- Inline Registration Feedback -->
+        {% if form.errors %}
+          <div role="alert" class="rounded-md bg-error-container border border-error/40 px-gutter-md py-gutter-sm">
+            {{ form.errors }}
+          </div>
+        {% endif %}
+
+        <!-- Bottom Sign In Link -->
+        <p data-design-text-token="body-md" class="font-body text-body-md text-center text-light-on-surface-variant">
+          Already have an account?
+          <a href="{% url 'login' %}" class="font-label text-label-lg text-deep-forest hover:text-light-secondary underline underline-offset-4 transition-colors duration-state-change">Sign In</a>
+        </p>
+
+      </div>
+    </main>
+
+  </div>
+
+  <script>
+    (function () {
+      document.querySelectorAll('[data-toggle-password]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const input = document.getElementById(btn.getAttribute('data-toggle-password'));
+          if (!input) return;
+          const isPassword = input.type === 'password';
+          input.type = isPassword ? 'text' : 'password';
+          const icon = btn.querySelector('.material-symbols-outlined');
+          if (icon) icon.textContent = isPassword ? 'visibility_off' : 'visibility';
+        });
+      });
+
+    })();
+  </script>
+
+
+</body></html>

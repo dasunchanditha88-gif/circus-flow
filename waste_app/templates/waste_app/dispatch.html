@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fleet &amp; Recycling Dispatch | Circus Flow</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'deep-forest': '#0F5132',
+            'vibrant-emerald': '#10B981',
+            'crisp-white': '#FFFFFF',
+            'admin-sidebar': '#111827',
+            'admin-sidebar-surface': '#1F2937',
+            'admin-sidebar-muted': '#9CA3AF',
+            'admin-canvas': '#F9FAFB',
+            'soft-slate': '#F1F5F9',
+            'light-outline-variant': '#CBD5E1',
+            'light-on-surface': '#0B1C30',
+            'light-on-surface-variant': '#38485D',
+            'emerald-tint': '#ECFDF5',
+            'on-emerald-tint': '#0F5132',
+            'on-vibrant-emerald': '#002111',
+            'on-admin-sidebar': '#F9FAFB',
+            'admin-success': '#DCFCE7',
+            'admin-warning': '#FEF3C7',
+            'admin-error': '#FEE2E2',
+          },
+          fontFamily: {
+            headline: ['Mulish', 'sans-serif'],
+            body: ['Instrument Sans', 'sans-serif'],
+            label: ['Instrument Sans', 'sans-serif'],
+            mono: ['Source Code Pro', 'monospace'],
+          },
+          spacing: {
+            'gutter-xs': '4px',
+            'gutter-sm': '8px',
+            'gutter-md': '16px',
+            'gutter-lg': '24px',
+            'gutter-xl': '32px',
+            'page-margin': '24px',
+          },
+        },
+      },
+    };
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&amp;family=Mulish:wght@600;700;800&amp;family=Source+Code+Pro:wght@500&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet">
+  <style>
+    body { font-family: "Instrument Sans", sans-serif; }
+    input, select, textarea {
+      width: 100%;
+      border: 1px solid #CBD5E1;
+      border-radius: 8px;
+      background: #FFFFFF;
+      padding: 8px 12px;
+      color: #0B1C30;
+    }
+    input[type="checkbox"] { width: auto; }
+    label { display: block; margin-bottom: 12px; }
+    label > label { margin-bottom: 0; }
+    .errorlist { color: #991B1B; font-size: 0.875rem; }
+  </style>
+</head>
+<body class="min-h-screen bg-admin-canvas text-light-on-surface">
+  <div class="min-h-screen lg:flex">
+    <aside class="bg-admin-sidebar text-on-admin-sidebar lg:fixed lg:inset-y-0 lg:w-64 px-gutter-lg py-gutter-xl flex flex-col gap-gutter-xl">
+      <a href="{% url 'admin_dashboard' %}" class="flex items-center gap-gutter-md text-on-admin-sidebar no-underline">
+        <span class="material-symbols-outlined text-vibrant-emerald text-3xl" aria-hidden="true">recycling</span>
+        <span class="font-headline text-xl font-bold">Circus Flow</span>
+      </a>
+      <nav aria-label="Dispatch sections" class="flex flex-col gap-gutter-sm">
+        <a href="{% url 'admin_dashboard' %}" class="rounded-md px-gutter-md py-gutter-sm text-admin-sidebar-muted hover:bg-admin-sidebar-surface hover:text-on-admin-sidebar">Operations Overview</a>
+        <a href="#vehicles" class="rounded-md px-gutter-md py-gutter-sm text-admin-sidebar-muted hover:bg-admin-sidebar-surface hover:text-on-admin-sidebar">Vehicles</a>
+        <a href="#zones" class="rounded-md px-gutter-md py-gutter-sm text-admin-sidebar-muted hover:bg-admin-sidebar-surface hover:text-on-admin-sidebar">Collection Zones</a>
+        <a href="#routes" class="rounded-md px-gutter-md py-gutter-sm text-admin-sidebar-muted hover:bg-admin-sidebar-surface hover:text-on-admin-sidebar">Routes &amp; Stops</a>
+        <a href="#tracking" class="rounded-md px-gutter-md py-gutter-sm text-admin-sidebar-muted hover:bg-admin-sidebar-surface hover:text-on-admin-sidebar">Location Updates</a>
+        <a href="#bulk-requests" class="rounded-md px-gutter-md py-gutter-sm text-admin-sidebar-muted hover:bg-admin-sidebar-surface hover:text-on-admin-sidebar">Bulk Requests</a>
+        <a href="#recycling" class="rounded-md px-gutter-md py-gutter-sm text-admin-sidebar-muted hover:bg-admin-sidebar-surface hover:text-on-admin-sidebar">Recycling Records</a>
+      </nav>
+      <div class="mt-auto rounded-lg bg-admin-sidebar-surface p-gutter-md">
+        <span class="block font-label text-sm text-admin-sidebar-muted">Dispatch operator</span>
+        <span class="font-label">{{ request.user.get_full_name|default:request.user.username }}</span>
+      </div>
+    </aside>
+
+    <main class="px-page-margin py-gutter-lg lg:ml-64 lg:px-gutter-xl lg:py-gutter-xl flex-1">
+      <header class="mb-gutter-xl flex flex-wrap items-center justify-between gap-gutter-md">
+        <div>
+          <p class="font-mono text-xs uppercase tracking-widest text-deep-forest">Circus Flow / Operations</p>
+          <h1 class="font-headline text-3xl font-bold text-deep-forest">Fleet &amp; Recycling Dispatch</h1>
+          <p class="mt-gutter-xs text-light-on-surface-variant">Manage collection vehicles, routes, checkpoint updates, bulk approvals, and recycling outcomes.</p>
+        </div>
+        <a href="{% url 'admin_dashboard' %}" class="rounded-md border border-deep-forest px-gutter-md py-gutter-sm font-label text-deep-forest hover:bg-emerald-tint">Back to Requests</a>
+      </header>
+
+      {% if messages %}
+        <div class="mb-gutter-lg flex flex-col gap-gutter-sm" role="status">
+          {% for message in messages %}
+            <p class="rounded-md border border-light-outline-variant bg-crisp-white px-gutter-md py-gutter-sm">{{ message }}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      <section aria-label="Dispatch summary" class="mb-gutter-xl grid grid-cols-1 gap-gutter-md sm:grid-cols-3">
+        <article class="rounded-lg border border-light-outline-variant bg-crisp-white p-gutter-lg shadow-sm">
+          <p class="font-label text-sm text-light-on-surface-variant">Registered Vehicles</p>
+          <p class="mt-gutter-sm font-headline text-3xl font-bold text-deep-forest">{{ vehicles|length }}</p>
+        </article>
+        <article class="rounded-lg border border-light-outline-variant bg-crisp-white p-gutter-lg shadow-sm">
+          <p class="font-label text-sm text-light-on-surface-variant">Planned / Active Routes</p>
+          <p class="mt-gutter-sm font-headline text-3xl font-bold text-deep-forest">{{ routes|length }}</p>
+        </article>
+        <article class="rounded-lg border border-light-outline-variant bg-crisp-white p-gutter-lg shadow-sm">
+          <p class="font-label text-sm text-light-on-surface-variant">Large Waste Requests</p>
+          <p class="mt-gutter-sm font-headline text-3xl font-bold text-deep-forest">{{ bulk_requests|length }}</p>
+        </article>
+      </section>
+
+      <section id="tracking-overview" aria-labelledby="tracking-overview-heading" class="mb-gutter-xl flex flex-col gap-gutter-md">
+        <header class="flex flex-wrap items-end justify-between gap-gutter-md">
+          <div>
+            <p class="font-mono text-xs uppercase tracking-widest text-deep-forest">Map-style dispatch view</p>
+            <h2 id="tracking-overview-heading" class="font-headline text-2xl font-bold text-deep-forest">Pickup Location &amp; Vehicle Tracking</h2>
+            <p class="text-light-on-surface-variant">Address and zone remain visible while waiting for a route, vehicle, checkpoint, and ETA.</p>
+          </div>
+          <a href="#tracking" class="rounded-md border border-deep-forest px-gutter-md py-gutter-sm font-label text-deep-forest hover:bg-emerald-tint">Update a Checkpoint</a>
+        </header>
+        <div class="flex flex-col gap-gutter-md">
+          {% for pickup in tracking_pickups|slice:":3" %}
+            {% with tracking_pickup=pickup %}
+              {% include "waste_app/includes/tracking_card.html" %}
+            {% endwith %}
+          {% empty %}
+            <div class="rounded-xl border border-light-outline-variant bg-crisp-white p-gutter-lg text-light-on-surface-variant">No pending or approved pickups are currently awaiting tracking.</div>
+          {% endfor %}
+        </div>
+      </section>
+
+      <section id="vehicles" class="mb-gutter-xl grid grid-cols-1 gap-gutter-lg xl:grid-cols-3">
+        <article class="rounded-xl border border-light-outline-variant bg-crisp-white p-gutter-lg shadow-sm">
+          <h2 class="mb-gutter-md font-headline text-xl font-bold text-deep-forest">Register a Vehicle</h2>
+          <form method="post" action="{% url 'create_vehicle' %}">
+            {% csrf_token %}
+            {{ vehicle_form.as_p }}
+            <button type="submit" class="rounded-md bg-vibrant-emerald px-gutter-lg py-gutter-sm font-label font-semibold text-on-vibrant-emerald hover:bg-deep-forest hover:text-crisp-white">Register Vehicle</button>
+          </form>
+        </article>
+        <article class="rounded-xl border border-light-outline-variant bg-crisp-white p-gutter-lg shadow-sm xl:col-span-2">
+          <h2 class="mb-gutter-md font-headline text-xl font-bold text-deep-forest">Fleet Status &amp; Location</h2>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm">
+              <thead><tr class="border-b border-light-outline-variant text-light-on-surface-variant">
+                <th class="px-gutter-sm py-gutter-sm">Vehicle / Operator</th>
+                <th class="px-gutter-sm py-gutter-sm">Capacity</th>
+                <th class="px-gutter-sm py-gutter-sm">Checkpoint</th>
+                <th class="px-gutter-sm py-gutter-sm">Status</th>
+              </tr></thead>
+              <tbody>
+                {% for vehicle in vehicles %}
+                  <tr class="border-b border-light-outline-variant/60 align-top">
+                    <td class="px-gutter-sm py-gutter-md">
+                      <strong class="text-deep-forest">{{ vehicle.vehicle_code }}</strong>
+                      <span class="block text-light-on-surface-variant">{{ vehicle.operator_name }}</span>
+                    </td>
+                    <td class="px-gutter-sm py-gutter-md">{{ vehicle.capacity_kg|floatformat:1 }} kg</td>
+                    <td class="px-gutter-sm py-gutter-md">
+                      {{ vehicle.current_checkpoint|default:"No checkpoint yet" }}
+                      {% if vehicle.current_latitude != None and vehicle.current_longitude != None %}
+                        <span class="block font-mono text-xs">{{ vehicle.current_latitude }}, {{ vehicle.current_longitude }}</span>
+                      {% endif %}
+                    </td>
+                    <td class="px-gutter-sm py-gutter-md">
+                      <form method="post" action="{% url 'update_vehicle_status' vehicle.pk %}" class="flex min-w-40 gap-gutter-xs">
+                        {% csrf_token %}
+                        <select name="status" aria-label="Status for {{ vehicle.vehicle_code }}">
+                          {% for value, label in vehicle_status_choices %}
+                            <option value="{{ value }}" {% if vehicle.status == value %}selected{% endif %}>{{ label }}</option>
+                          {% endfor %}
+                        </select>
+                        <button type="submit" class="rounded-md bg-deep-forest px-gutter-sm py-gutter-xs font-label text-xs text-crisp-white">Save</button>
+                      </form>
+                      {% if vehicle.location_updated_at %}<span class="mt-1 block text-xs text-light-on-surface-variant">Updated {{ vehicle.location_updated_at|date:"M d, g:i A" }}</span>{% endif %}
+                    </td>
+                  </tr>
+                {% empty %}
+                  <tr><td colspan="4" class="py-gutter-lg text-center text-light-on-surface-variant">No vehicles registered.</td></tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </article>
+      </section>
+
+      <section id="zones" class="mb-gutter-xl grid grid-cols-1 gap-gutter-lg lg:grid-cols-2">
+        <article class="rounded-xl border border-light-outline-variant bg-crisp-white p-gutter-lg shadow-sm">
+          <h2 class="mb-gutter-md font-headline text-xl font-bold text-deep-forest">Add a Collection Zone</h2>
+          <form method="post" action="{% url 'create_zone' %}">
+            {% csrf_token %}
+            {{ zone_form.as_p }}
+            <button type="submit" class="rounded-md bg-vibrant-emerald px-gutter-lg py-gutter-sm font-label font-semibold text-on-vibrant-emerald hover:bg-deep-forest hover:text-crisp-white">Add Zone</button>
+          </form>
+        </article>
+        <article class="rounded-xl border border-light-outline-variant bg-crisp-white p-gutter-lg shadow-sm">
+          <h2 class="mb-gutter-md font-headline text-xl font-bold text-deep-forest">Available Zones</h2>
+          <div class="divide-y divide-light-outline-variant">
+            {% for zone in zones %}
+              <form method="post" action="{% url 'update_zone' zone.pk %}" class="py-gutter-md">
+                {% csrf_token %}
+                <label class="mb-2 text-xs font-label text-light-on-surface-variant">Zone name<input type="text" name="name" value="{{ zone.name }}" maxlength="100" required></label>
+                <label class="mb-2 text-xs font-label text-light-on-surface-variant">Area description<textarea name="area_description" rows="2">{{ zone.area_description }}</textarea></label>
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                  <label class="mb-0 flex items-center gap-2 text-sm"><input type="checkbox" name="is_active" {% if zone.is_active %}checked{% endif %}> Active for new pickups</label>
+                  <button type="submit" class="rounded-md border border-deep-forest px-gutter-md py-gutter-sm text-sm font-semibold text-deep-forest hover:bg-emerald-tint">Save Zone</button>
+                </div>
+              </form>
+            {% empty %}
+              <p class="py-gutter-md text-light-on-surface-variant">Create a zone before planning a route.</p>
+            {% endfor %}
+          </div>
+        </article>
+      </section>
+
+      <section id="routes" class="mb-gutter-xl grid grid-cols-1 gap-gutter-lg xl:grid-cols-2">
+        <article class="rounded-xl border border-light-outline-variant bg-crisp-white p-gutter-lg shadow-sm">
+          <h2 class="mb-gutter-md font-headline text-xl font-bold text-deep-forest">Plan a Collection Route</h2>
+          <form method="post" action="{% url 'create_route' %}">
+            {% csrf_token %}
+            {{ route_form.as_p }}
+            <button type="submit" class="rounded-md bg-vibrant-emerald px-gutter-lg py-gutter-sm font-label font-semibold text-on-vibrant-emerald hover:bg-deep-forest hover:text-crisp-white">Create Route</button>
+          </form>
+        </article>
+        <article class="rounded-xl border border-light-outline-variant bg-crisp-white p-gutter-lg shadow-sm">
+          <h2 class="mb-gutter-md font-headline text-xl font-bold text-deep-forest">Assign an Approved Pickup</h2>
+          <p class="mb-gutter-md text-sm text-light-on-surface-variant">Route date and zone must match the request. Capacity is checked before assignment.</p>
+          <form method="post" action="{% url 'assign_route_stop' %}">
+            {% csrf_token %}
+            {{ route_stop_form.as_p }}
+            <button type="submit" class="rounded-md bg-deep-forest px-gutter-lg py-gutter-sm font-label font-semibold text-crisp-white hover:bg-vibrant-emerald hover:text-on-vibrant-emerald">Assign Stop</button>
+          </form>
+        </article>
+      </section>
+
+      <section class="mb-gutter-xl flex flex-col gap-gutter-md" aria-labelledby="planned-routes-heading">
+        <h2 id="planned-routes-heading" class="font-headline text-2xl font-bold text-deep-forest">Planned Routes &amp; Stop Order</h2>
+        {% for route in routes %}
+          <article class="rounded-xl border border-light-outline-variant bg-crisp-white p-gutter-lg shadow-sm">
+            <header class="mb-gutter-md flex flex-wrap items-start justify-between gap-gutter-md">
+              <div>
+                <h3 class="font-headline text-xl font-bold text-deep-forest">{{ route.name }}</h3>
+                <p class="text-sm text-light-on-surface-variant">{{ route.zone.name }} · {{ route.scheduled_date|date:"M d, Y" }} · {{ route.get_status_display }}</p>
+                <p class="text-sm text-light-on-surface-variant">Vehicle: {{ route.vehicle.vehicle_code|default:"Unassigned" }}{% if route.vehicle %} · {{ route.vehicle.operator_name }}{% endif %}</p>
+              </div>
+              <span class="rounded-full bg-emerald-tint px-gutter-md py-gutter-xs font-label text-sm text-deep-forest">{{ route.stops.count }} stops</span>
+            </header>
+            <ol class="divide-y divide-light-outline-variant">
+              {% for stop in route.stops.all %}
+                <li class="flex flex-wrap items-start justify-between gap-gutter-md py-gutter-md">
+                  <div>
+                    <span class="font-mono text-sm text-deep-forest">Stop {{ stop.stop_order }} · #CF-{{ stop.pickup_id|stringformat:"04d" }}</span>
+                    <p class="font-label">{{ stop.pickup.user.get_full_name|default:stop.pickup.user.username }} · {{ stop.pickup.pickup_address }}</p>
+                    <p class="text-sm text-light-on-surface-variant">{{ stop.pickup.get_customer_type_display }} · {{ stop.pickup.estimated_weight_kg|floatformat:1 }} kg · {{ stop.get_status_display }}</p>
+                  </div>
+                  <div class="text-right text-sm text-light-on-surface-variant">
+                    {% if stop.estimated_arrival %}<p>Predicted ETA: <strong class="text-deep-forest">{{ stop.estimated_arrival|date:"g:i A" }}</strong></p>{% else %}<p>No active ETA</p>{% endif %}
+                    {% if stop.pickup.zone %}<p>Zone: {{ stop.pickup.zone.name }}</p>{% endif %}
+                  </div>
+                </li>
+              {% empty %}
+                <li class="py-gutter-md text-light-on-surface-variant">No stops assigned to this route.</li>
+              {% endfor %}
+            </ol>
+            {% with latest_location=route.location_updates.all|first %}
+              {% if latest_location %}
+                <p class="mt-gutter-md rounded-md bg-soft-slate p-gutter-md text-sm">
+                  Latest checkpoint: <strong>{{ latest_location.checkpoint }}</strong> · {{ latest_location.route_status }} · {{ latest_location.created_at|date:"M d, g:i A" }}
+                  {% if latest_location.latitude != None and latest_location.longitude != None %}
+                    <span class="block font-mono text-xs">{{ latest_location.latitude }}, {{ latest_location.longitude }}</span>
+                  {% endif %}
+                </p>
+              {% endif %}
+            {% endwith %}
+          </article>
+        {% empty %}
+          <p class="rounded-lg border border-light-outline-variant bg-crisp-white p-gutter-lg text-light-on-surface-variant">No routes planned yet.</p>
+        {% endfor %}
+      </section>
+
+      <section id="tracking" class="mb-gutter-xl rounded-xl border border-light-outline-variant bg-crisp-white p-gutter-lg shadow-sm">
+        <h2 class="mb-gutter-xs font-headline text-xl font-bold text-deep-forest">Location &amp; Route Progress Update</h2>
+        <p class="mb-gutter-md text-sm text-light-on-surface-variant">Operator-entered checkpoints and optional coordinates are stored as a route history. These are simulated/manual updates, not a live GPS feed.</p>
+        <form method="post" action="{% url 'add_location_update' %}">
+          {% csrf_token %}
+          {{ location_form.as_p }}
+          <button type="submit" class="rounded-md bg-vibrant-emerald px-gutter-lg py-gutter-sm font-label font-semibold text-on-vibrant-emerald hover:bg-deep-forest hover:text-crisp-white">Save Checkpoint</button>
+        </form>
+      </section>
+
+      <section id="bulk-requests" class="mb-gutter-xl rounded-xl border border-light-outline-variant bg-crisp-white p-gutter-lg shadow-sm">
+        <h2 class="mb-gutter-xs font-headline text-xl font-bold text-deep-forest">Hotel, Industrial &amp; Bulk Waste Requests</h2>
+        <p class="mb-gutter-md text-sm text-light-on-surface-variant">Review customer tier, bulk weight, handling requirements, and approve or reject large-scale pickups.</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm">
+            <thead><tr class="border-b border-light-outline-variant text-light-on-surface-variant">
+              <th class="px-gutter-sm py-gutter-sm">Request / Customer</th>
+              <th class="px-gutter-sm py-gutter-sm">Customer Type / Tier</th>
+              <th class="px-gutter-sm py-gutter-sm">Bulk Weight / Handling</th>
+              <th class="px-gutter-sm py-gutter-sm">Status / Approval</th>
+            </tr></thead>
+            <tbody>
+              {% for pickup in bulk_requests %}
+                <tr class="border-b border-light-outline-variant/60 align-top">
+                  <td class="px-gutter-sm py-gutter-md">#CF-{{ pickup.pk|stringformat:"04d" }} · {{ pickup.user.get_full_name|default:pickup.user.username }}<span class="block text-light-on-surface-variant">{{ pickup.pickup_address }}</span></td>
+                  <td class="px-gutter-sm py-gutter-md">{{ pickup.get_customer_type_display }}<span class="block text-light-on-surface-variant">{{ pickup.get_customer_tier_display }}</span></td>
+                  <td class="px-gutter-sm py-gutter-md">{{ pickup.bulk_weight_kg|default:pickup.estimated_weight_kg|floatformat:1 }} kg<span class="block text-light-on-surface-variant">{{ pickup.special_handling_notes|default:"No special handling notes." }}</span></td>
+                  <td class="px-gutter-sm py-gutter-md">
+                    <span class="mb-gutter-xs inline-block rounded-full bg-admin-warning px-gutter-sm py-1 font-label text-xs">{{ pickup.get_status_display }}</span>
+                    <form method="post" action="{% url 'update_pickup_status' pickup.pk %}" class="flex min-w-40 gap-gutter-xs">
+                      {% csrf_token %}
+                      <input type="hidden" name="return_to" value="dispatch">
+                      <select name="status" aria-label="Approve or update bulk request {{ pickup.pk }}">
+                        <option value="">Choose action</option>
+                        {% for status in status_choices %}<option value="{{ status }}">{% if status == "Approved" %}Approve{% elif status == "Completed" %}Mark Completed{% else %}Reject{% endif %}</option>{% endfor %}
+                      </select>
+                      <button type="submit" class="rounded-md bg-deep-forest px-gutter-sm py-gutter-xs font-label text-xs text-crisp-white">Save</button>
+                    </form>
+                  </td>
+                </tr>
+              {% empty %}
+                <tr><td colspan="4" class="py-gutter-lg text-center text-light-on-surface-variant">No large-scale waste requests have been submitted.</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="recycling" class="rounded-xl border border-light-outline-variant bg-crisp-white p-gutter-lg shadow-sm">
+        <h2 class="mb-gutter-xs font-headline text-xl font-bold text-deep-forest">Sorting &amp; Recycling Records</h2>
+        <p class="mb-gutter-md text-sm text-light-on-surface-variant">Classify collected waste, record sorted weight and processing stage. Eco-points are recalculated from recyclable weight and the category rate.</p>
+        <div class="flex flex-col gap-gutter-md">
+          {% for pickup in pickup_requests %}
+            {% with record=pickup.recycling_record %}
+              <article class="rounded-lg border border-light-outline-variant p-gutter-md">
+                <div class="mb-gutter-sm flex flex-wrap justify-between gap-gutter-sm">
+                  <div>
+                    <strong class="font-label text-deep-forest">#CF-{{ pickup.pk|stringformat:"04d" }} · {{ pickup.user.get_full_name|default:pickup.user.username }}</strong>
+                    <span class="block text-sm text-light-on-surface-variant">{{ pickup.category.name }} · {{ pickup.estimated_weight_kg|floatformat:1 }} kg estimated · {{ pickup.get_status_display }}</span>
+                  </div>
+                  <span class="font-mono text-sm text-deep-forest">{% if pickup.points_awarded %}Awarded eco-points: {{ record.eco_points_awarded|default:0 }}{% else %}Potential eco-points: {% if record %}{{ record.calculate_eco_points }}{% else %}0{% endif %}{% endif %}</span>
+                </div>
+                <form method="post" action="{% url 'update_recycling_record' pickup.pk %}" class="grid grid-cols-1 items-end gap-gutter-sm sm:grid-cols-2 xl:grid-cols-5">
+                  {% csrf_token %}
+                  <label class="mb-0 text-xs font-label text-light-on-surface-variant">Classification
+                    <select name="classification">
+                      {% for value, label in recycling_form.fields.classification.choices %}
+                        <option value="{{ value }}" {% if record and record.classification == value %}selected{% elif not record and value == "Unclassified" %}selected{% endif %}>{{ label }}</option>
+                      {% endfor %}
+                    </select>
+                  </label>
+                  <label class="mb-0 text-xs font-label text-light-on-surface-variant">Sorted weight (kg)
+                    <input type="number" name="sorted_weight_kg" min="0" step="0.01" value="{% if record and record.sorted_weight_kg != None %}{{ record.sorted_weight_kg }}{% endif %}">
+                  </label>
+                  <label class="mb-0 text-xs font-label text-light-on-surface-variant">Recycling stage
+                    <select name="stage">
+                      {% for value, label in recycling_form.fields.stage.choices %}
+                        <option value="{{ value }}" {% if record and record.stage == value %}selected{% elif not record and value == "Awaiting Sorting" %}selected{% endif %}>{{ label }}</option>
+                      {% endfor %}
+                    </select>
+                  </label>
+                  <label class="mb-0 text-xs font-label text-light-on-surface-variant sm:col-span-2 xl:col-span-1">Notes
+                    <input type="text" name="notes" value="{% if record %}{{ record.notes }}{% endif %}" maxlength="2000">
+                  </label>
+                  <button type="submit" class="rounded-md bg-deep-forest px-gutter-md py-gutter-sm font-label text-sm text-crisp-white hover:bg-vibrant-emerald hover:text-on-vibrant-emerald">Save Sorting Record</button>
+                </form>
+              </article>
+            {% endwith %}
+          {% empty %}
+            <p class="text-light-on-surface-variant">No pickup requests to classify.</p>
+          {% endfor %}
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

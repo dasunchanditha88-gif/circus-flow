@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reports &amp; Analytics | Circus Flow</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+  <script>
+    tailwind.config = { theme: { extend: {
+      colors: { 'deep-forest': '#0F5132', 'vibrant-emerald': '#10B981', 'crisp-white': '#FFFFFF', 'admin-sidebar': '#111827', 'admin-sidebar-surface': '#1F2937', 'admin-sidebar-muted': '#9CA3AF', 'admin-canvas': '#F9FAFB', 'light-outline-variant': '#CBD5E1', 'light-on-surface-variant': '#38485D', 'emerald-tint': '#ECFDF5', 'warning-container': '#FEF3C7' },
+      fontFamily: { headline: ['Mulish', 'sans-serif'], body: ['Instrument Sans', 'sans-serif'], label: ['Instrument Sans', 'sans-serif'], mono: ['Source Code Pro', 'monospace'] },
+      spacing: { 'gutter-sm': '8px', 'gutter-md': '16px', 'gutter-lg': '24px', 'gutter-xl': '32px', 'page-margin': '24px' }
+    } } };
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&amp;family=Mulish:wght@600;700;800&amp;family=Source+Code+Pro:wght@500&amp;display=swap" rel="stylesheet">
+</head>
+<body class="min-h-screen bg-admin-canvas text-slate-900">
+  <div class="min-h-screen lg:flex">
+    <aside class="bg-admin-sidebar px-gutter-lg py-gutter-xl text-crisp-white lg:fixed lg:inset-y-0 lg:w-64">
+      <a href="{% url 'admin_dashboard' %}" class="font-headline text-2xl font-extrabold text-crisp-white">Circus Flow</a>
+      <nav aria-label="Admin analytics navigation" class="mt-gutter-xl flex flex-col gap-gutter-sm">
+        <a class="rounded-md px-gutter-md py-gutter-sm text-admin-sidebar-muted hover:bg-admin-sidebar-surface hover:text-crisp-white" href="{% url 'admin_dashboard' %}">Operations Overview</a>
+        <a class="rounded-md px-gutter-md py-gutter-sm text-admin-sidebar-muted hover:bg-admin-sidebar-surface hover:text-crisp-white" href="{% url 'compost_management' %}">Compost Batches</a>
+        <a class="rounded-md px-gutter-md py-gutter-sm text-admin-sidebar-muted hover:bg-admin-sidebar-surface hover:text-crisp-white" href="{% url 'sales_management' %}">Products &amp; Sales</a>
+        <a class="rounded-md bg-admin-sidebar-surface px-gutter-md py-gutter-sm text-vibrant-emerald" href="{% url 'reports' %}">Reports &amp; Analytics</a>
+        <a class="rounded-md px-gutter-md py-gutter-sm text-admin-sidebar-muted hover:bg-admin-sidebar-surface hover:text-crisp-white" href="{% url 'notifications' %}">Notifications ({{ unread_notification_count }})</a>
+        <a class="rounded-md px-gutter-md py-gutter-sm text-admin-sidebar-muted hover:bg-admin-sidebar-surface hover:text-crisp-white" href="{% url 'dispatch_dashboard' %}">Fleet &amp; Recycling</a>
+      </nav>
+    </aside>
+    <main class="px-page-margin py-gutter-xl lg:ml-64 lg:px-gutter-xl flex-1">
+      <header class="mb-gutter-xl">
+        <p class="font-mono text-xs uppercase tracking-widest text-deep-forest">Operational data / measured outcomes</p>
+        <h1 class="font-headline text-3xl font-extrabold text-deep-forest">Reports &amp; Analytics</h1>
+        <p class="mt-2 text-light-on-surface-variant">Live database summaries for collection, recycling, compost production, and product sales.</p>
+      </header>
+      <section aria-label="Waste and sales KPIs" class="mb-gutter-xl grid grid-cols-1 gap-gutter-md sm:grid-cols-2 xl:grid-cols-3">
+        <article class="rounded-xl border border-light-outline-variant bg-crisp-white p-gutter-lg shadow-sm"><p class="text-sm text-light-on-surface-variant">Completed Collections</p><p class="mt-2 font-headline text-3xl font-bold text-deep-forest">{{ completed_pickup_count }}</p><p class="text-xs text-light-on-surface-variant">{{ collected_weight|floatformat:2 }} kg collected</p></article>
+        <article class="rounded-xl border border-light-outline-variant bg-crisp-white p-gutter-lg shadow-sm"><p class="text-sm text-light-on-surface-variant">Recycled Weight</p><p class="mt-2 font-headline text-3xl font-bold text-deep-forest">{{ recycled_weight|floatformat:2 }} kg</p><p class="text-xs text-light-on-surface-variant">Classified recyclable and marked recycled</p></article>
+        <article class="rounded-xl border border-light-outline-variant bg-crisp-white p-gutter-lg shadow-sm"><p class="text-sm text-light-on-surface-variant">Compost Input</p><p class="mt-2 font-headline text-3xl font-bold text-deep-forest">{{ compost_input_weight|floatformat:2 }} kg</p><p class="text-xs text-light-on-surface-variant">{{ compost_yield_weight|floatformat:2 }} kg yielded by ready batches</p></article>
+        <article class="rounded-xl border border-light-outline-variant bg-crisp-white p-gutter-lg shadow-sm"><p class="text-sm text-light-on-surface-variant">Fulfilled Sales</p><p class="mt-2 font-headline text-3xl font-bold text-deep-forest">{{ sales_revenue|floatformat:2 }}</p><p class="text-xs text-light-on-surface-variant">Revenue from fulfilled product orders</p></article>
+        <article class="rounded-xl border border-light-outline-variant bg-crisp-white p-gutter-lg shadow-sm"><p class="text-sm text-light-on-surface-variant">Pending Sales Orders</p><p class="mt-2 font-headline text-3xl font-bold text-deep-forest">{{ pending_sales_orders }}</p><a class="text-sm font-semibold text-deep-forest underline" href="{% url 'sales_management' %}#orders">Review orders</a></article>
+      </section>
+      <section class="grid grid-cols-1 gap-gutter-lg xl:grid-cols-2">
+        <article class="rounded-xl border border-light-outline-variant bg-crisp-white p-gutter-lg shadow-sm">
+          <h2 class="mb-gutter-md font-headline text-xl font-bold text-deep-forest">Collection by Waste Category</h2>
+          <div class="overflow-x-auto"><table class="w-full text-left text-sm"><thead><tr class="border-b border-light-outline-variant text-light-on-surface-variant"><th class="py-2">Category</th><th class="py-2">Pickups</th><th class="py-2">Collected (kg)</th></tr></thead><tbody>
+            {% for row in category_breakdown %}<tr class="border-b border-light-outline-variant/60"><td class="py-3">{{ row.category__name }}</td><td class="py-3">{{ row.request_count }}</td><td class="py-3">{{ row.collected_kg|floatformat:2 }}</td></tr>{% empty %}<tr><td colspan="3" class="py-gutter-md text-light-on-surface-variant">No completed collection data.</td></tr>{% endfor %}
+          </tbody></table></div>
+        </article>
+        <article class="rounded-xl border border-light-outline-variant bg-crisp-white p-gutter-lg shadow-sm">
+          <h2 class="mb-gutter-md font-headline text-xl font-bold text-deep-forest">Collection Request Status</h2>
+          <div class="overflow-x-auto"><table class="w-full text-left text-sm"><thead><tr class="border-b border-light-outline-variant text-light-on-surface-variant"><th class="py-2">Status</th><th class="py-2">Requests</th></tr></thead><tbody>
+            {% for row in collection_status_breakdown %}<tr class="border-b border-light-outline-variant/60"><td class="py-3">{{ row.status }}</td><td class="py-3">{{ row.request_count }}</td></tr>{% empty %}<tr><td colspan="2" class="py-gutter-md text-light-on-surface-variant">No collection requests.</td></tr>{% endfor %}
+          </tbody></table></div>
+        </article>
+        <article class="rounded-xl border border-light-outline-variant bg-crisp-white p-gutter-lg shadow-sm xl:col-span-2">
+          <h2 class="mb-gutter-md font-headline text-xl font-bold text-deep-forest">Recycling Classification &amp; Processing</h2>
+          <div class="overflow-x-auto"><table class="w-full text-left text-sm"><thead><tr class="border-b border-light-outline-variant text-light-on-surface-variant"><th class="py-2">Classification</th><th class="py-2">Stage</th><th class="py-2">Records</th><th class="py-2">Sorted weight (kg)</th></tr></thead><tbody>
+            {% for row in recycling_stage_breakdown %}<tr class="border-b border-light-outline-variant/60"><td class="py-3">{{ row.classification }}</td><td class="py-3">{{ row.stage }}</td><td class="py-3">{{ row.record_count }}</td><td class="py-3">{{ row.sorted_kg|default:0|floatformat:2 }}</td></tr>{% empty %}<tr><td colspan="4" class="py-gutter-md text-light-on-surface-variant">No recycling records.</td></tr>{% endfor %}
+          </tbody></table></div>
+        </article>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

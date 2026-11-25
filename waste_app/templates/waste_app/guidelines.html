@@ -1,0 +1,493 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Circus Flow — Waste Segregation Guidelines &amp; Live Status</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">/** @type {import('tailwindcss').Config} */
+globalThis.tailwind = globalThis.tailwind || {};
+globalThis.tailwind.config = {
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        'deep-forest': '#0F5132',
+        'on-deep-forest': '#FFFFFF',
+        'vibrant-emerald': '#10B981',
+        'on-vibrant-emerald': '#002111',
+        'crisp-white': '#FFFFFF',
+        'soft-slate': '#F1F5F9',
+        'slate-muted': '#64748B',
+        'emerald-tint': '#ECFDF5',
+        'on-emerald-tint': '#0F5132',
+        'success': '#006C49',
+        'on-success': '#FFFFFF',
+        'success-container': '#DCFCE7',
+        'on-success-container': '#166534',
+        'warning-container': '#FEF3C7',
+        'on-warning-container': '#92400E',
+        'info-container': '#DBEAFE',
+        'on-info-container': '#1E40AF',
+        'error': '#BA1A1A',
+        'on-error': '#FFFFFF',
+        'error-container': '#FEE2E2',
+        'on-error-container': '#991B1B',
+        'admin-sidebar': '#111827',
+        'on-admin-sidebar': '#F9FAFB',
+        'admin-sidebar-surface': '#1F2937',
+        'admin-sidebar-muted': '#9CA3AF',
+        'admin-canvas': '#F9FAFB',
+        'light-primary': '#0F5132',
+        'light-on-primary': '#FFFFFF',
+        'light-primary-container': '#C1FFD5',
+        'light-on-primary-container': '#002111',
+        'light-secondary': '#006C49',
+        'light-on-secondary': '#FFFFFF',
+        'light-secondary-container': '#BEFFDB',
+        'light-on-secondary-container': '#002113',
+        'light-surface': '#FFFFFF',
+        'light-surface-container-low': '#F8FAFC',
+        'light-surface-container': '#F1F5F9',
+        'light-surface-container-high': '#E2E8F0',
+        'light-on-surface': '#0B1C30',
+        'light-on-surface-variant': '#38485D',
+        'light-outline': '#68788F',
+        'light-outline-variant': '#CBD5E1',
+      },
+      borderRadius: {
+        'sm': '6px',
+        'DEFAULT': '10px',
+        'md': '12px',
+        'lg': '16px',
+        'xl': '24px',
+        'full': '9999px',
+      },
+      spacing: {
+        'gutter-xs': '4px',
+        'gutter-sm': '8px',
+        'gutter-md': '16px',
+        'gutter-lg': '24px',
+        'gutter-xl': '32px',
+        'section': '48px',
+        'page-margin': '24px',
+      },
+      fontFamily: {
+        'display': ['"Mulish"', 'sans-serif'],
+        'headline': ['"Mulish"', 'sans-serif'],
+        'title': ['"Instrument Sans"', 'sans-serif'],
+        'body': ['"Instrument Sans"', 'sans-serif'],
+        'label': ['"Instrument Sans"', 'sans-serif'],
+        'mono': ['"Source Code Pro"', 'monospace'],
+      },
+      fontSize: {
+        'display-lg': ['48px', { lineHeight: '54px', letterSpacing: '-0.75px', fontWeight: '800' }],
+        'display-lg-mobile': ['32px', { lineHeight: '38px', letterSpacing: '-0.5px', fontWeight: '800' }],
+        'headline-lg': ['34px', { lineHeight: '42px', letterSpacing: '-0.4px', fontWeight: '700' }],
+        'headline-lg-mobile': ['26px', { lineHeight: '32px', letterSpacing: '-0.25px', fontWeight: '700' }],
+        'headline-sm': ['22px', { lineHeight: '28px', letterSpacing: '-0.2px', fontWeight: '700' }],
+        'title-md': ['18px', { lineHeight: '24px', letterSpacing: '0px', fontWeight: '600' }],
+        'body-lg': ['16px', { lineHeight: '26px', letterSpacing: '0px', fontWeight: '400' }],
+        'body-md': ['14px', { lineHeight: '22px', letterSpacing: '0px', fontWeight: '400' }],
+        'label-lg': ['14px', { lineHeight: '20px', letterSpacing: '0.1px', fontWeight: '600' }],
+        'label-sm': ['12px', { lineHeight: '16px', letterSpacing: '0.25px', fontWeight: '600' }],
+        'mono-sm': ['12px', { lineHeight: '18px', letterSpacing: '0px', fontWeight: '500' }],
+      },
+      transitionDuration: {
+        'state-change': '150ms',
+        'surface-enter': '250ms',
+      },
+      transitionDelay: {
+        'state-change': '0ms',
+        'surface-enter': '0ms',
+      },
+      transitionTimingFunction: {
+        'state-change': 'cubic-bezier(0.2, 0, 0, 1)',
+        'surface-enter': 'cubic-bezier(0.2, 0, 0, 1)',
+      },
+    },
+  },
+};
+if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
+</script>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&amp;family=Mulish:wght@600;700;800&amp;family=Source+Code+Pro:wght@500&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet">
+  <style>
+    .material-symbols-outlined, .material-symbols-rounded, .material-symbols-sharp, .material-icons {
+      display: inline-block;
+      width: 1em;
+      height: 1em;
+      line-height: 1 !important;
+      box-sizing: content-box;
+      overflow: hidden;
+      white-space: nowrap;
+      direction: ltr;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body class="bg-light-surface-container-low text-light-on-surface font-body antialiased selection:bg-light-primary-container selection:text-light-on-primary-container">
+
+  <div class="min-h-[1024px] flex bg-light-surface-container-low" data-stitch-vh="min-h-[1024px]===min-h-screen">
+
+    <!-- Mobile Sidebar Backdrop -->
+    <div id="sidebar-backdrop" hidden class="fixed inset-0 z-30 bg-light-on-surface/30 backdrop-blur-sm lg:hidden"></div>
+
+    <!-- Left Sidebar Navigation (Exact Shell Parity with User Dashboard) -->
+    <aside id="sidebar" aria-label="Primary navigation" class="fixed inset-y-0 left-0 z-40 w-64 -translate-x-full lg:translate-x-0 lg:static lg:flex lg:flex-col min-h-[1024px] bg-crisp-white border-r border-light-outline-variant/70 transition-transform duration-surface-enter ease-surface-enter flex flex-col justify-between shrink-0" data-stitch-vh="min-h-[1024px]===min-h-screen">
+      <div class="p-gutter-lg flex flex-col gap-gutter-xl">
+        <!-- Brand Mark -->
+        <div class="flex items-center justify-between">
+          <a href="#guidelines" class="inline-flex items-center gap-gutter-sm rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-vibrant-emerald">
+            <span class="inline-flex items-center justify-center w-10 h-10 rounded-md bg-deep-forest text-on-deep-forest shadow-sm">
+              <span class="material-symbols-outlined text-title-md" aria-hidden="true">recycling</span>
+            </span>
+            <span data-design-text-token="title-md" class="font-headline text-title-md text-deep-forest tracking-tight">Circus Flow</span>
+          </a>
+          <button id="close-sidebar-btn" type="button" aria-label="Close navigation" class="lg:hidden inline-flex items-center justify-center w-8 h-8 rounded-md text-light-on-surface-variant hover:bg-soft-slate">
+            <span class="material-symbols-outlined text-title-md" aria-hidden="true">close</span>
+          </button>
+        </div>
+
+        <!-- Navigation Links -->
+        <nav class="flex flex-col gap-gutter-xs" aria-label="Dashboard sections">
+          <a href="{% url 'user_dashboard' %}" class="flex items-center gap-gutter-md px-gutter-md py-gutter-sm rounded-md text-light-on-surface-variant hover:bg-soft-slate hover:text-deep-forest font-label text-label-lg transition-colors duration-state-change ease-state-change">
+            <span class="material-symbols-outlined text-title-md" aria-hidden="true">dashboard</span>
+            <span data-design-text-token="label-lg">Dashboard</span>
+          </a>
+
+          <a href="{% url 'user_dashboard' %}#schedule-pickup" class="flex items-center gap-gutter-md px-gutter-md py-gutter-sm rounded-md text-light-on-surface-variant hover:bg-soft-slate hover:text-deep-forest font-label text-label-lg transition-colors duration-state-change ease-state-change">
+            <span class="material-symbols-outlined text-title-md" aria-hidden="true">add_circle</span>
+            <span data-design-text-token="label-lg">New Request</span>
+          </a>
+
+          <a href="{% url 'user_dashboard' %}#recent-requests" class="flex items-center gap-gutter-md px-gutter-md py-gutter-sm rounded-md text-light-on-surface-variant hover:bg-soft-slate hover:text-deep-forest font-label text-label-lg transition-colors duration-state-change ease-state-change">
+            <span class="material-symbols-outlined text-title-md" aria-hidden="true">history</span>
+            <span data-design-text-token="label-lg">My History</span>
+          </a>
+
+          <a href="{% url 'guidelines' %}" aria-current="page" class="flex items-center gap-gutter-md px-gutter-md py-gutter-sm rounded-md bg-emerald-tint text-deep-forest font-label text-label-lg transition-colors duration-state-change ease-state-change">
+            <span class="material-symbols-outlined text-title-md" aria-hidden="true">person</span>
+            <span data-design-text-token="label-lg">Guidelines</span>
+          </a>
+
+          <a href="{% url 'profile' %}" class="flex items-center gap-gutter-md px-gutter-md py-gutter-sm rounded-md text-light-on-surface-variant hover:bg-soft-slate hover:text-deep-forest font-label text-label-lg transition-colors duration-state-change ease-state-change">
+            <span class="material-symbols-outlined text-title-md" aria-hidden="true">person</span>
+            <span data-design-text-token="label-lg">Profile</span>
+          </a>
+
+          <a href="{% url 'marketplace' %}" class="flex items-center gap-gutter-md px-gutter-md py-gutter-sm rounded-md text-light-on-surface-variant hover:bg-soft-slate hover:text-deep-forest font-label text-label-lg transition-colors duration-state-change ease-state-change">
+            <span class="material-symbols-outlined text-title-md" aria-hidden="true">storefront</span>
+            <span data-design-text-token="label-lg">Compost Shop</span>
+          </a>
+
+          <a href="{% url 'notifications' %}" class="flex items-center justify-between gap-gutter-md px-gutter-md py-gutter-sm rounded-md text-light-on-surface-variant hover:bg-soft-slate hover:text-deep-forest font-label text-label-lg transition-colors duration-state-change ease-state-change">
+            <span class="flex items-center gap-gutter-md"><span class="material-symbols-outlined text-title-md" aria-hidden="true">notifications</span><span data-design-text-token="label-lg">Notifications</span></span>
+            {% if unread_notification_count %}<span class="rounded-full bg-vibrant-emerald px-2 py-0.5 font-mono text-xs text-deep-forest">{{ unread_notification_count }}</span>{% endif %}
+          </a>
+        </nav>
+      </div>
+
+      <!-- Sidebar Household Status Summary -->
+      <div class="p-gutter-lg border-t border-light-outline-variant/60">
+        <div class="rounded-lg bg-light-surface-container-low border border-light-outline-variant/60 p-gutter-md flex flex-col gap-gutter-xs">
+          <div class="flex items-center gap-gutter-sm">
+            <span class="material-symbols-outlined text-body-md text-light-secondary" aria-hidden="true">eco</span>
+            <span data-design-text-token="label-sm" class="font-label text-label-sm text-deep-forest">Zone 4B Active</span>
+          </div>
+          <p data-design-text-token="body-md" class="font-body text-body-md text-light-on-surface-variant">742 Evergreen Terrace</p>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Workspace Column -->
+    <div class="flex-1 flex flex-col min-w-0">
+
+      <!-- Top Header (Exact Shell Parity) -->
+      <header class="sticky top-0 z-20 bg-crisp-white/90 backdrop-blur-md border-b border-light-outline-variant/70 px-page-margin lg:px-gutter-xl py-gutter-md flex items-center justify-between gap-gutter-md">
+        <div class="flex items-center gap-gutter-md min-w-0">
+          <button id="open-sidebar-btn" type="button" aria-label="Open navigation" class="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-md border border-light-outline-variant text-deep-forest hover:bg-soft-slate">
+            <span class="material-symbols-outlined text-title-md" aria-hidden="true">menu</span>
+          </button>
+          <div class="flex flex-col min-w-0">
+            <h1 data-design-text-token="title-md" class="font-headline text-title-md text-deep-forest truncate">Welcome back, {{ request.user.get_full_name|default:request.user.username }}</h1>
+            <p data-design-text-token="label-sm" class="font-label text-label-sm text-light-on-surface-variant">Manage your curbside pickups and recycling impact</p>
+          </div>
+        </div>
+
+        <form method="post" action="{% url 'logout' %}">
+          {% csrf_token %}
+          <button type="submit" class="inline-flex shrink-0 items-center justify-center gap-gutter-sm px-gutter-md py-gutter-sm rounded-md border border-light-outline-variant bg-crisp-white text-deep-forest hover:bg-soft-slate font-label text-label-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-vibrant-emerald transition-colors duration-state-change ease-state-change">
+            <span class="material-symbols-outlined text-title-md" aria-hidden="true">logout</span>
+            <span data-design-text-token="label-lg">Logout</span>
+          </button>
+        </form>
+      </header>
+
+      <!-- Main Content -->
+      <main id="guidelines" class="flex-1 w-full max-w-6xl mx-auto px-page-margin lg:px-gutter-xl py-gutter-lg lg:py-gutter-xl flex flex-col gap-gutter-xl">
+
+        <!-- Page Heading -->
+        <section class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-gutter-md">
+          <div class="flex flex-col gap-gutter-xs">
+            <h2 data-design-text-token="headline-lg" class="font-headline text-headline-lg-mobile lg:text-headline-lg text-deep-forest text-balance">Waste Segregation Guidelines &amp; Live Status</h2>
+            <p data-design-text-token="body-lg" class="font-body text-body-lg text-light-on-surface-variant max-w-prose text-pretty">Sort each waste stream before pickup to earn eco-rewards and track your active collection in real time.</p>
+          </div>
+          <div class="inline-flex shrink-0 items-center gap-gutter-sm self-start sm:self-end px-gutter-md py-gutter-xs rounded-full bg-emerald-tint border border-vibrant-emerald/30">
+            <span class="material-symbols-outlined text-body-md text-deep-forest" aria-hidden="true">stars</span>
+            <span data-design-text-token="label-sm" class="font-label text-label-sm text-on-emerald-tint tabular-nums">{{ profile.eco_points }} Eco-Points</span>
+          </div>
+        </section>
+
+        <section id="location-tracking" aria-label="Pickup location and vehicle tracking">
+          {% include "waste_app/includes/tracking_card.html" %}
+        </section>
+
+        <!-- 4-Column Grid of Waste Segregation Cards -->
+        <section aria-label="Waste segregation categories" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-gutter-md items-stretch">
+
+          <!-- Card 1: Organic Waste -->
+          <article class="h-full rounded-xl bg-crisp-white border border-light-outline-variant/70 shadow-sm p-gutter-md flex flex-col justify-between gap-gutter-lg">
+            <div class="flex flex-col gap-gutter-md">
+              <div class="flex items-center justify-between gap-gutter-sm">
+                <span class="inline-flex items-center justify-center w-10 h-10 rounded-md bg-emerald-tint text-on-emerald-tint">
+                  <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
+                    <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
+                  </svg>
+                </span>
+                <span data-design-text-token="label-sm" class="font-label text-label-sm px-gutter-sm py-gutter-xs rounded-full bg-emerald-tint text-on-emerald-tint">Green Bin</span>
+              </div>
+
+              <h3 data-design-text-token="label-lg" class="font-label text-label-lg text-deep-forest">Organic Waste</h3>
+
+              <ul class="flex flex-col gap-gutter-xs list-disc pl-gutter-md text-light-on-surface-variant">
+                <li data-design-text-token="body-md" class="font-body text-body-md">Fruit &amp; vegetable scraps</li>
+                <li data-design-text-token="body-md" class="font-body text-body-md">Coffee grounds &amp; filters</li>
+                <li data-design-text-token="body-md" class="font-body text-body-md">Yard trimmings &amp; leaves</li>
+              </ul>
+            </div>
+
+            <div class="pt-gutter-md border-t border-light-outline-variant/50 flex items-center justify-between gap-gutter-xs">
+              <span data-design-text-token="label-sm" class="font-label text-label-sm text-light-on-surface-variant">Reward</span>
+              <span data-design-text-token="mono-sm" class="font-mono text-mono-sm px-gutter-sm py-gutter-xs rounded-md bg-vibrant-emerald text-on-vibrant-emerald tabular-nums">+15 PTS/KG</span>
+            </div>
+          </article>
+
+          <!-- Card 2: Plastic & Packaging -->
+          <article class="h-full rounded-xl bg-crisp-white border border-light-outline-variant/70 shadow-sm p-gutter-md flex flex-col justify-between gap-gutter-lg">
+            <div class="flex flex-col gap-gutter-md">
+              <div class="flex items-center justify-between gap-gutter-sm">
+                <span class="inline-flex items-center justify-center w-10 h-10 rounded-md bg-info-container text-on-info-container">
+                  <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M9 3h6v3l2 3v11a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2V9l2-3V3Z"></path>
+                    <path d="M9 13h6"></path>
+                    <path d="M9 17h6"></path>
+                  </svg>
+                </span>
+                <span data-design-text-token="label-sm" class="font-label text-label-sm px-gutter-sm py-gutter-xs rounded-full bg-info-container text-on-info-container">Blue Bin</span>
+              </div>
+
+              <h3 data-design-text-token="label-lg" class="font-label text-label-lg text-deep-forest">Plastic &amp; Packaging</h3>
+
+              <ul class="flex flex-col gap-gutter-xs list-disc pl-gutter-md text-light-on-surface-variant">
+                <li data-design-text-token="body-md" class="font-body text-body-md">PET bottles &amp; jugs (#1, #2)</li>
+                <li data-design-text-token="body-md" class="font-body text-body-md">Rinsed food containers</li>
+                <li data-design-text-token="body-md" class="font-body text-body-md">Clean cardboard &amp; cartons</li>
+              </ul>
+            </div>
+
+            <div class="pt-gutter-md border-t border-light-outline-variant/50 flex items-center justify-between gap-gutter-xs">
+              <span data-design-text-token="label-sm" class="font-label text-label-sm text-light-on-surface-variant">Reward</span>
+              <span data-design-text-token="mono-sm" class="font-mono text-mono-sm px-gutter-sm py-gutter-xs rounded-md bg-vibrant-emerald text-on-vibrant-emerald tabular-nums">+20 PTS/KG</span>
+            </div>
+          </article>
+
+          <!-- Card 3: Electronic Waste (E-Waste) -->
+          <article class="h-full rounded-xl bg-crisp-white border border-light-outline-variant/70 shadow-sm p-gutter-md flex flex-col justify-between gap-gutter-lg">
+            <div class="flex flex-col gap-gutter-md">
+              <div class="flex items-center justify-between gap-gutter-sm">
+                <span class="inline-flex items-center justify-center w-10 h-10 rounded-md bg-warning-container text-on-warning-container">
+                  <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <rect x="6" y="6" width="12" height="12" rx="2"></rect>
+                    <rect x="9" y="9" width="6" height="6" rx="1"></rect>
+                    <path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"></path>
+                  </svg>
+                </span>
+                <span data-design-text-token="label-sm" class="font-label text-label-sm px-gutter-sm py-gutter-xs rounded-full bg-warning-container text-on-warning-container">Special Pickup</span>
+              </div>
+
+              <h3 data-design-text-token="label-lg" class="font-label text-label-lg text-deep-forest">Electronic Waste (E-Waste)</h3>
+
+              <ul class="flex flex-col gap-gutter-xs list-disc pl-gutter-md text-light-on-surface-variant">
+                <li data-design-text-token="body-md" class="font-body text-body-md">Phones, tablets &amp; laptops</li>
+                <li data-design-text-token="body-md" class="font-body text-body-md">Cables, chargers &amp; adapters</li>
+                <li data-design-text-token="body-md" class="font-body text-body-md">Small household appliances</li>
+              </ul>
+            </div>
+
+            <div class="pt-gutter-md border-t border-light-outline-variant/50 flex items-center justify-between gap-gutter-xs">
+              <span data-design-text-token="label-sm" class="font-label text-label-sm text-light-on-surface-variant">Reward</span>
+              <span data-design-text-token="mono-sm" class="font-mono text-mono-sm px-gutter-sm py-gutter-xs rounded-md bg-vibrant-emerald text-on-vibrant-emerald tabular-nums">+50 PTS/KG</span>
+            </div>
+          </article>
+
+          <!-- Card 4: Glass/Metal -->
+          <article class="h-full rounded-xl bg-crisp-white border border-light-outline-variant/70 shadow-sm p-gutter-md flex flex-col justify-between gap-gutter-lg">
+            <div class="flex flex-col gap-gutter-md">
+              <div class="flex items-center justify-between gap-gutter-sm">
+                <span class="inline-flex items-center justify-center w-10 h-10 rounded-md bg-success-container text-on-success-container">
+                  <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M8 3h8v3l2 2v11a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V8l2-2V3Z"></path>
+                    <path d="M8 6h8"></path>
+                    <circle cx="12" cy="14" r="2.5"></circle>
+                  </svg>
+                </span>
+                <span data-design-text-token="label-sm" class="font-label text-label-sm px-gutter-sm py-gutter-xs rounded-full bg-success-container text-on-success-container">Sorting Bin</span>
+              </div>
+
+              <h3 data-design-text-token="label-lg" class="font-label text-label-lg text-deep-forest">Glass/Metal</h3>
+
+              <ul class="flex flex-col gap-gutter-xs list-disc pl-gutter-md text-light-on-surface-variant">
+                <li data-design-text-token="body-md" class="font-body text-body-md">Rinsed glass jars &amp; bottles</li>
+                <li data-design-text-token="body-md" class="font-body text-body-md">Aluminum &amp; tin food cans</li>
+                <li data-design-text-token="body-md" class="font-body text-body-md">Clean foil &amp; metal lids</li>
+              </ul>
+            </div>
+
+            <div class="pt-gutter-md border-t border-light-outline-variant/50 flex items-center justify-between gap-gutter-xs">
+              <span data-design-text-token="label-sm" class="font-label text-label-sm text-light-on-surface-variant">Reward</span>
+              <span data-design-text-token="mono-sm" class="font-mono text-mono-sm px-gutter-sm py-gutter-xs rounded-md bg-vibrant-emerald text-on-vibrant-emerald tabular-nums">+25 PTS/KG</span>
+            </div>
+          </article>
+        </section>
+
+        <!-- Below the Grid: Horizontal Step-by-Step Waste Collection Lifecycle Tracker -->
+        <section aria-labelledby="lifecycle-heading">
+          <article class="rounded-xl bg-crisp-white border border-light-outline-variant/70 shadow-sm p-gutter-lg lg:p-gutter-xl flex flex-col gap-gutter-xl">
+            <header class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-gutter-sm pb-gutter-md border-b border-light-outline-variant/60">
+              <div class="flex flex-col gap-gutter-xs">
+                <h2 id="lifecycle-heading" data-design-text-token="headline-sm" class="font-headline text-headline-sm text-deep-forest">Live Waste Collection Lifecycle</h2>
+                <p data-design-text-token="body-md" class="font-body text-body-md text-light-on-surface-variant">Track your latest household pickup request from submission through its final outcome.</p>
+              </div>
+              <div class="inline-flex shrink-0 items-center gap-gutter-sm self-start sm:self-center px-gutter-md py-gutter-xs rounded-md bg-soft-slate border border-light-outline-variant/60">
+                {% if latest_request %}
+                  <span data-design-text-token="mono-sm" class="font-mono text-mono-sm text-deep-forest tabular-nums">#CF-{{ latest_request.pk|stringformat:"04d" }}</span>
+                  <span data-design-text-token="label-sm" class="font-label text-label-sm text-light-on-surface-variant">{{ latest_request.category.name }} · {{ latest_request.estimated_weight_kg|floatformat:1 }} kg · {{ latest_request.get_status_display }}</span>
+                {% else %}
+                  <span data-design-text-token="label-sm" class="font-label text-label-sm text-light-on-surface-variant">No pickup requests yet</span>
+                {% endif %}
+              </div>
+            </header>
+
+            <!-- 4-Step Horizontal Progress Tracker -->
+            {% if latest_request %}
+            {% if latest_request.route_stop %}
+              <div class="grid grid-cols-1 gap-gutter-sm rounded-lg bg-emerald-tint p-gutter-md text-sm text-deep-forest md:grid-cols-2">
+                <p><strong>Route:</strong> {{ latest_request.route_stop.route.name }} · {{ latest_request.route_stop.route.zone.name }}</p>
+                <p><strong>Vehicle:</strong> {{ latest_request.route_stop.route.vehicle.vehicle_code|default:"Not assigned" }}{% if latest_request.route_stop.route.vehicle %} · {{ latest_request.route_stop.route.vehicle.operator_name }}{% endif %}</p>
+                <p><strong>ETA:</strong> {% if latest_request.route_stop.estimated_arrival %}{{ latest_request.route_stop.estimated_arrival|date:"M d, g:i A" }}{% else %}No active ETA for this status{% endif %}</p>
+                <p><strong>Current route status:</strong> {{ latest_request.route_stop.route.get_status_display }}</p>
+                {% if latest_location %}
+                  <p class="md:col-span-2"><strong>Latest checkpoint:</strong> {{ latest_location.checkpoint }} · {{ latest_location.created_at|date:"M d, g:i A" }}{% if latest_location.latitude != None and latest_location.longitude != None %} · {{ latest_location.latitude }}, {{ latest_location.longitude }}{% endif %}</p>
+                {% else %}
+                  <p class="md:col-span-2">No operator checkpoint has been recorded yet.</p>
+                {% endif %}
+              </div>
+            {% elif latest_request.status == 'Pending' or latest_request.status == 'Approved' %}
+              <p class="rounded-md bg-soft-slate px-gutter-md py-gutter-sm text-sm text-light-on-surface-variant">Pickup window: {{ latest_request.time_slot }} on {{ latest_request.pickup_date|date:"M d, Y" }}. An exact route ETA will appear after dispatch assignment.</p>
+            {% endif %}
+            {% if latest_recycling_record %}
+              <p class="rounded-md bg-soft-slate px-gutter-md py-gutter-sm text-sm text-light-on-surface-variant">
+                Recycling: {{ latest_recycling_record.get_classification_display }} · {{ latest_recycling_record.get_stage_display }}
+                {% if latest_recycling_record.sorted_weight_kg != None %}· {{ latest_recycling_record.sorted_weight_kg|floatformat:1 }} kg sorted{% endif %}
+                · {{ latest_recycling_record.calculate_eco_points }} eco-points
+              </p>
+            {% elif latest_request.status == 'Completed' %}
+              <p class="rounded-md bg-soft-slate px-gutter-md py-gutter-sm text-sm text-light-on-surface-variant">Detailed sorting and recycling results are pending staff entry.</p>
+            {% endif %}
+            <div class="relative">
+              <!-- Connecting Horizontal Track (Desktop) -->
+              <div aria-hidden="true" class="hidden md:block absolute top-5 left-12 right-12 h-1 rounded-full bg-soft-slate">
+                <div class="h-full rounded-full {% if latest_request.status == 'Rejected' %}bg-error{% elif latest_request.status == 'Cancelled' %}bg-light-outline-variant{% else %}bg-vibrant-emerald{% endif %}" style="width: {{ lifecycle_progress }}%"></div>
+              </div>
+
+              <ol class="relative grid grid-cols-1 md:grid-cols-4 gap-gutter-lg">
+                <!-- Step 1: Request Submitted (Completed) -->
+                <li class="flex md:flex-col items-start md:items-center md:text-center gap-gutter-md">
+                  <span class="relative z-10 inline-flex shrink-0 items-center justify-center w-10 h-10 rounded-full bg-deep-forest text-on-deep-forest shadow-sm">
+                    <span class="material-symbols-outlined text-title-md" aria-hidden="true">check</span>
+                  </span>
+                  <div class="flex flex-col gap-gutter-xs">
+                    <span data-design-text-token="label-lg" class="font-label text-label-lg text-deep-forest">Request Submitted</span>
+                    <span data-design-text-token="mono-sm" class="font-mono text-mono-sm text-light-secondary tabular-nums">{{ latest_request.created_at|date:"M d, Y · g:i A" }}</span>
+                  </div>
+                </li>
+
+                <!-- Step 2: Driver Assigned (Completed) -->
+                <li class="flex md:flex-col items-start md:items-center md:text-center gap-gutter-md">
+                  <span class="relative z-10 inline-flex shrink-0 items-center justify-center w-10 h-10 rounded-full {% if latest_request.status == 'Approved' or latest_request.status == 'Completed' %}bg-deep-forest text-on-deep-forest{% else %}bg-soft-slate border border-light-outline-variant text-light-on-surface-variant{% endif %} shadow-sm">
+                    <span class="material-symbols-outlined text-title-md" aria-hidden="true">local_shipping</span>
+                  </span>
+                  <div class="flex flex-col gap-gutter-xs">
+                    <span data-design-text-token="label-lg" class="font-label text-label-lg text-deep-forest">{% if latest_request.status == 'Approved' or latest_request.status == 'Completed' %}Pickup Approved{% elif latest_request.status == 'Rejected' %}Request Rejected{% elif latest_request.status == 'Cancelled' %}Request Cancelled{% else %}Awaiting Approval{% endif %}</span>
+                    <span data-design-text-token="mono-sm" class="font-mono text-mono-sm text-light-secondary tabular-nums">{{ latest_request.get_status_display|upper }}</span>
+                  </div>
+                </li>
+
+                <!-- Step 3: Waste Collected (Current Active Step) -->
+                <li class="flex md:flex-col items-start md:items-center md:text-center gap-gutter-md">
+                  <span class="relative z-10 inline-flex shrink-0 items-center justify-center w-10 h-10 rounded-full {% if latest_request.status == 'Completed' %}bg-vibrant-emerald text-on-vibrant-emerald ring-4 ring-emerald-tint shadow-md{% elif latest_request.status == 'Rejected' %}bg-error text-on-error{% elif latest_request.status == 'Cancelled' %}bg-light-outline-variant text-light-on-surface-variant{% else %}bg-soft-slate border border-light-outline-variant text-light-on-surface-variant{% endif %}">
+                    <span class="material-symbols-outlined text-title-md" aria-hidden="true">inventory_2</span>
+                  </span>
+                  <div class="flex flex-col gap-gutter-xs">
+                    <span data-design-text-token="label-lg" class="font-label text-label-lg text-deep-forest">{% if latest_request.status == 'Completed' %}Waste Collected{% elif latest_request.status == 'Rejected' %}Pickup Not Collected{% elif latest_request.status == 'Cancelled' %}Pickup Cancelled{% else %}Pickup Scheduled{% endif %}</span>
+                    <span data-design-text-token="mono-sm" class="font-mono text-mono-sm text-deep-forest tabular-nums">{{ latest_request.get_status_display|upper }} · {{ latest_request.pickup_date|date:"M d" }} · {{ latest_request.time_slot }}</span>
+                  </div>
+                </li>
+
+                <!-- Step 4: Recycled (Upcoming) -->
+                <li class="flex md:flex-col items-start md:items-center md:text-center gap-gutter-md">
+                  <span class="relative z-10 inline-flex shrink-0 items-center justify-center w-10 h-10 rounded-full {% if latest_request.status == 'Completed' %}bg-vibrant-emerald text-on-vibrant-emerald{% elif latest_request.status == 'Rejected' %}bg-error text-on-error{% elif latest_request.status == 'Cancelled' %}bg-light-outline-variant text-light-on-surface-variant{% else %}bg-soft-slate border border-light-outline-variant text-light-on-surface-variant{% endif %}">
+                    <span class="material-symbols-outlined text-title-md" aria-hidden="true">recycling</span>
+                  </span>
+                  <div class="flex flex-col gap-gutter-xs">
+                    <span data-design-text-token="label-lg" class="font-label text-label-lg text-light-on-surface-variant">{% if latest_request.status == 'Rejected' %}Request Closed{% elif latest_request.status == 'Cancelled' %}Request Cancelled{% else %}Recycled{% endif %}</span>
+                    <span data-design-text-token="mono-sm" class="font-mono text-mono-sm text-light-on-surface-variant tabular-nums">{% if latest_request.status == 'Completed' %}RECYCLING VERIFIED{% elif latest_request.status == 'Rejected' %}REQUEST REJECTED{% elif latest_request.status == 'Cancelled' %}REQUEST CANCELLED{% else %}AWAITING COMPLETION{% endif %}</span>
+                  </div>
+                </li>
+              </ol>
+            </div>
+            {% else %}
+              <p class="rounded-md bg-soft-slate px-gutter-md py-gutter-lg text-light-on-surface-variant">Your latest pickup status will appear here after you submit a request.</p>
+            {% endif %}
+          </article>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const sidebar = document.getElementById('sidebar');
+      const backdrop = document.getElementById('sidebar-backdrop');
+      const openBtn = document.getElementById('open-sidebar-btn');
+      const closeBtn = document.getElementById('close-sidebar-btn');
+
+      function openSidebar() {
+        sidebar.classList.remove('-translate-x-full');
+        backdrop.removeAttribute('hidden');
+      }
+
+      function closeSidebar() {
+        sidebar.classList.add('-translate-x-full');
+        backdrop.setAttribute('hidden', '');
+      }
+
+      if (openBtn) openBtn.addEventListener('click', openSidebar);
+      if (closeBtn) closeBtn.addEventListener('click', closeSidebar);
+      if (backdrop) backdrop.addEventListener('click', closeSidebar);
+    })();
+  </script>
+
+
+</body></html>
